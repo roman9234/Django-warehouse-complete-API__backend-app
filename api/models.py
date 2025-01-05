@@ -7,7 +7,6 @@ class ApiUser(AbstractUser):
     ...
 
 
-
 # Наследуем от модели
 class Warehouse(models.Model):
     name = models.CharField(max_length=128)
