@@ -18,8 +18,11 @@ class UserSerializer(serializers.Serializer):
     # write_only=True не позволяет отправить пароль в открытом виде клиенту после регистрации
     password = serializers.CharField(min_length=6, max_length=20, write_only=True)
 
+    is_supplier = serializers.BooleanField()
+
     def update(self, instance, validated_data):
         # username не обновляется
+        # is_supplier не обновляется
         if email := validated_data.get("email"):
             instance.email = email
             instance.save(update_fields=["email"])
@@ -34,6 +37,7 @@ class UserSerializer(serializers.Serializer):
         user = ApiUser.objects.create(
             email=validated_data["email"],
             username=validated_data["username"],
+            is_supplier=validated_data["is_supplier"]
         )
         # Так как пароль хранится в зашифрованном виде, для его задания нужно использовать метод set_password
         user.set_password(validated_data["password"])

@@ -4,7 +4,7 @@ from django.db import models
 
 
 class ApiUser(AbstractUser):
-    ...
+    is_supplier = models.BooleanField(default=False)
 
 
 # Наследуем от модели

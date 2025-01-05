@@ -27,6 +27,11 @@ REST_FRAMEWORK = {...}
 
 исполняем миграции
 python manage.py makemigrations
+python manage.py migrate
+
+
+Создание суперпользователя для отладки
+python manage.py createsuperuser --username=superuser --email=superuser@mail.ru
 
 
 ---- Запсук сервера----

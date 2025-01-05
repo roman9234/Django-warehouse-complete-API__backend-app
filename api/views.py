@@ -15,6 +15,10 @@ class UserModelViewSet(viewsets.ModelViewSet):
     queryset = ApiUser.objects.all()
     serializer_class = UserSerializer
 
+    http_method_names = ["post", "get"]
+
+
+
 
 class WarehouseModelViewSet(viewsets.ModelViewSet):
     queryset = Warehouse.objects.all()
