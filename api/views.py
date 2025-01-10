@@ -5,7 +5,10 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
 from api.models import ApiUser, Warehouse, Product, Request
+from api.permissions import IsNotAuthenticated
 from api.serializers import UserSerializer, WarehouseSerializer, ProductSerializer, RequestSerializer
+
+from django.http import HttpResponseForbidden
 
 
 # Create your views here.
@@ -16,6 +19,9 @@ class UserModelViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     http_method_names = ["post", "get"]
+
+    permission_classes = [IsNotAuthenticated]
+
 
 
 
@@ -31,6 +37,7 @@ class WarehouseModelViewSet(viewsets.ModelViewSet):
         return Response(
             RequestSerializer(requests, many=True).data
         )
+
 
 
 
