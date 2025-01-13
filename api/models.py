@@ -15,6 +15,8 @@ class Warehouse(models.Model):
 # Только Suppliers могут создавать продукты
 class Product(models.Model):
     name = models.CharField(max_length=128)
+    producer = models.ForeignKey(ApiUser, related_name="producer_products", on_delete=models.CASCADE, default=None)
+
 
 # Только Requester может создавать поля requests и редактировать поле request_retrieved
 # Только supplier может редактировать поле request_supplied
@@ -24,10 +26,8 @@ class Request(models.Model):
     product = models.ForeignKey(Product, related_name="requests", on_delete=models.CASCADE)
     amount = models.PositiveIntegerField()
     warehouse = models.ForeignKey(Warehouse, related_name="requests", on_delete=models.CASCADE)
-    supplier = models.ForeignKey(ApiUser, related_name="requests", on_delete=models.CASCADE)
     request_supplied = models.BooleanField(default=False)
     request_retrieved = models.BooleanField(default=False)
-    # TODO поле customer
-    # customer = models.ForeignKey(ApiUser, related_name="customer_requests", on_delete=models.CASCADE)
+    customer = models.ForeignKey(ApiUser, related_name="customer_requests", on_delete=models.CASCADE, default=None)
 
 
