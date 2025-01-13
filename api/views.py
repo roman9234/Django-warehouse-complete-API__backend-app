@@ -2,10 +2,12 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 from api.models import ApiUser, Warehouse, Product, Request
 from api.permissions import IsNotAuthenticated
+
 from api.serializers import UserSerializer, WarehouseSerializer, ProductSerializer, RequestSerializer
 
 from django.http import HttpResponseForbidden
@@ -20,7 +22,7 @@ class UserModelViewSet(viewsets.ModelViewSet):
 
     http_method_names = ["post", "get"]
 
-    permission_classes = [IsNotAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 
@@ -38,6 +40,8 @@ class WarehouseModelViewSet(viewsets.ModelViewSet):
             RequestSerializer(requests, many=True).data
         )
 
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
 
 
 
@@ -54,7 +58,11 @@ class ProductModelViewSet(viewsets.ModelViewSet):
             RequestSerializer(requests, many=True).data
         )
 
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
 
 class RequestModelViewSet(viewsets.ModelViewSet):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
+
+    permission_classes = [IsAuthenticatedOrReadOnly]
