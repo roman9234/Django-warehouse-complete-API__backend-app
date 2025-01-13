@@ -55,13 +55,41 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
-        extra_kwargs = {"id": {"read_only": True}}
+        extra_kwargs = {
+            "id": {"read_only": True},
+            "producer": {"read_only": True},
+                        }
 
 class RequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Request
         fields = "__all__"
-        extra_kwargs = {"id": {"read_only": True}}
+        # TODO узнать можно ли настроить разные read_only для создания и обновления
+        extra_kwargs = {
+            "id": {"read_only": True},
+            # "request_supplied": {"read_only": True},  # Это поле обновляется только поставщиком
+            # "request_retrieved": {"read_only": True},  # Это поле обновляется только заказчиком
+            "customer": {"read_only": True},
+        }
+
+    # Кастомный валидатор
+    def validate(self, attrs):
+        request = self.context['request']
+        user = request.user
+
+        # только заказчик может создавать заявку
+        if request.method == "POST" and user.is_supplier:
+            raise serializers.ValidationError("Только заказчики могут создавать заявки.")
+
+        # заказчик может установить request_retrieved=True только если request_supplied=True
+        if 'request_retrieved' in attrs and attrs['request_retrieved']:
+            # текущий объект (если это update)
+            instance = self.instance
+            if not instance or not instance.request_supplied:
+                raise serializers.ValidationError("Товар ещё не доставлен поставщиком.")
+
+        return attrs
+
 
 
 

@@ -24,9 +24,27 @@ class IsRequesterOrAdmin(BasePermission):
         else:
             return False
 
+
+class IsRequesterOfProduct(BasePermission):
+    """
+    Разрешает доступ только заказчику продукта
+    """
+    def has_object_permission(self, request, view, obj):
+        return obj.customer == request.user
+
 class IsSupplierOrAdmin(BasePermission):
     def has_permission(self, request, view):
         if request.user.is_authenticated:
             return request.user.is_supplier or request.user.is_staff
         else:
             return False
+
+
+class IsSupplierOfProduct(BasePermission):
+    """
+    Разрешает доступ только поставщику этого продукта.
+    """
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_staff:
+            return True
+        return obj.product.producer == request.user
