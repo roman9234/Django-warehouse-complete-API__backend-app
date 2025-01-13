@@ -1,7 +1,13 @@
+---- Запсук сервера ----
 
 
+Для запуска сервера Django необходимо выполнить команду
+python manage.py runserver
+Это запустит локальный сервер на порту по умолчанию (обычно 8000)
 
-Устанавливаем зависимости по файлу requirements.in
+
+---- работа с pip-tools ----
+Устанавливаем зависимости по файлу requirements.in:
 
 
 pip install pip-tools
@@ -9,7 +15,7 @@ pip-compile.exe
 pip-sync.exe
 
 
-Создаём проект
+---- Создаём проект ----
 django-admin startproject logistics
 
 
@@ -30,37 +36,9 @@ python manage.py makemigrations
 python manage.py migrate
 
 
-Создание суперпользователя для отладки
+---- Создание суперпользователя для отладки ----
 python manage.py createsuperuser --username=superuser --email=superuser@mail.ru
 
-
----- Запсук сервера----
-
-
-Для запуска сервера Django необходимо выполнить команду
-python manage.py runserver
-Это запустит локальный сервер на порту по умолчанию (обычно 8000)
-
-
-TODO сделать регистрацию
-TODO сделать указание типа поставщик/потребитель
-TODO сделать аутентификацию
-
-TODO сделать для каждого товара привязку к поставщику
-
-TODO создавать склады и товары могут только поставщики
-TODO сделать доступ только к некоторым полям для поставщиков и потребителей: поставщик создаёт отправления на склад и указывает, прибыло ли оно. Потребитель может указать, забрал ли он его
-либо понять как можно сделать по другому
-
-
-
----- ошибка ----
-
-
-It is impossible to add a non-nullable field 'customer' to request without specifying a default. This is because the database needs something to populate existing rows.
-Please select a fix:
- 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
- 2) Quit and manually define a default value in models.py.
 
 
 
