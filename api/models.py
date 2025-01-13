@@ -1,17 +1,18 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+# (Админы имеют доступ ко всем действиям)
 
-
+# Только неавторизованные пользователи могут создавать аккаунты
 class ApiUser(AbstractUser):
     is_supplier = models.BooleanField(default=False)
 
 
-# Наследуем от модели
+# Только админы могут создавать склады
 class Warehouse(models.Model):
     name = models.CharField(max_length=128)
 
-
+# Только Suppliers могут создавать продукты
 class Product(models.Model):
     name = models.CharField(max_length=128)
 
