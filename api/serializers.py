@@ -58,7 +58,7 @@ class ProductSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "id": {"read_only": True},
             "producer": {"read_only": True},
-                        }
+        }
 
 class RequestSerializer(serializers.ModelSerializer):
     class Meta:
