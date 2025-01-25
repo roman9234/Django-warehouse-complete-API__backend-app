@@ -1,24 +1,40 @@
-from django.shortcuts import render
+# pylint: disable=no-member
+# pylint: disable=unused-argument
+"""
+Модуль содержит Views которые используются для обработки и доступа к запросам
+"""
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import get_object_or_404
-from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
+from rest_framework.permissions import (
+    IsAdminUser,
+    AllowAny,
+)
 from rest_framework.response import Response
-
 from api.models import ApiUser, Warehouse, Product, Request
-from api.permissions import IsNotAuthenticated, IsNotAuthenticatedOrAdmin, IsRequesterOrAdmin, IsSupplierOrAdmin, \
-    IsSupplierOfProduct, IsRequesterOfProduct
-
-from api.serializers import UserSerializer, WarehouseSerializer, ProductSerializer, RequestSerializer
-
-from django.http import HttpResponseForbidden
+from api.permissions import (
+    IsNotAuthenticatedOrAdmin,
+    IsRequesterOrAdmin,
+    IsSupplierOrAdmin,
+    IsSupplierOfProduct,
+    IsRequesterOfProduct
+)
+from api.serializers import (
+    UserSerializer,
+    WarehouseSerializer,
+    ProductSerializer,
+    RequestSerializer
+)
 
 
 # Create your views here.
 
 
-class UserModelViewSet(viewsets.ModelViewSet):
+class UserModelViewSet(viewsets.ModelViewSet): # pylint: disable=too-many-ancestors
+    """
+    ViewSet пользователей
+    """
     queryset = ApiUser.objects.all()
     serializer_class = UserSerializer
 
@@ -41,12 +57,18 @@ class UserModelViewSet(viewsets.ModelViewSet):
 
 
 
-class WarehouseModelViewSet(viewsets.ModelViewSet):
+class WarehouseModelViewSet(viewsets.ModelViewSet): # pylint: disable=too-many-ancestors
+    """
+    ViewSet складов
+    """
     queryset = Warehouse.objects.all()
     serializer_class = WarehouseSerializer
 
     @action(detail=True)
     def requests(self, request, pk=None):
+        """
+        Запрос для получения всех объектов requests связанных с warehouse
+        """
         warehouse = get_object_or_404(Warehouse.objects.all(), id=pk)
         requests = warehouse.requests
         return Response(
@@ -71,12 +93,18 @@ class WarehouseModelViewSet(viewsets.ModelViewSet):
 
 
 
-class ProductModelViewSet(viewsets.ModelViewSet):
+class ProductModelViewSet(viewsets.ModelViewSet): # pylint: disable=too-many-ancestors
+    """
+    ViewSet продуктов
+    """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
     @action(detail=True)
     def requests(self, request, pk=None):
+        """
+        Запрос для получения всех объектов requests связанных с product
+        """
         product = get_object_or_404(Product.objects.all(), id=pk)
         requests = product.requests
         return Response(
@@ -102,8 +130,11 @@ class ProductModelViewSet(viewsets.ModelViewSet):
             raise PermissionDenied("Только производители могут создавать продукты.")
 
 
-# TODO узнать можно ли натсроить форму в API ROOT так, чтобы вместо ID там отображались названия
-class RequestModelViewSet(viewsets.ModelViewSet):
+# узнать можно ли натсроить форму в API ROOT так, чтобы вместо ID там отображались названия
+class RequestModelViewSet(viewsets.ModelViewSet): # pylint: disable=too-many-ancestors
+    """
+    ViewSet запросов
+    """
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
 
@@ -125,11 +156,15 @@ class RequestModelViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         # Установить текущего пользователя как customer (заказчик)
         if not self.request.user.is_supplier:
-            serializer.save(customer=self.request.user, request_supplied=False, request_retrieved=False)
+            serializer.save(
+                customer=self.request.user,
+                request_supplied=False,
+                request_retrieved=False
+            )
         else:
             raise PermissionDenied("Только заказчики могут создавать заявки.")
 
-    # TODO проверить все варианты поведения
+    # проверить все варианты поведения
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
 

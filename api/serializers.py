@@ -1,3 +1,6 @@
+"""
+Модуль содержит сериализаторы моделей
+"""
 from rest_framework import serializers
 from rest_framework import validators
 
@@ -5,6 +8,9 @@ from rest_framework import validators
 from api.models import ApiUser, Warehouse, Product, Request
 
 class UserSerializer(serializers.Serializer):
+    """
+    Сериализатор пользователя
+    """
     # Также добавим валидацию уникальности - username должен быть уникальным
     username = serializers.CharField(max_length=128, validators=[
         # Проверяем нет ли уже такого username используя встроенный в validators валидатор
@@ -39,20 +45,28 @@ class UserSerializer(serializers.Serializer):
             username=validated_data["username"],
             is_supplier=validated_data["is_supplier"]
         )
-        # Так как пароль хранится в зашифрованном виде, для его задания нужно использовать метод set_password
+        # Так как пароль хранится в зашифрованном виде,
+        # для его задания нужно использовать метод set_password
         user.set_password(validated_data["password"])
-        # Сохраняем изменения. Пишем что обновили только одно поле, так как остальные были изменены при создании
+        # Сохраняем изменения.
+        # Пишем что обновили только одно поле, так как остальные были изменены при создании
         user.save(update_fields=["password"])
         return user
 
 class WarehouseSerializer(serializers.ModelSerializer):
-    class Meta:
+    """
+    Сериализатор склада
+    """
+    class Meta: # pylint: disable=too-few-public-methods disable=missing-class-docstring
         model = Warehouse
         fields = "__all__"
         extra_kwargs = {"id": {"read_only": True}}
 
 class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
+    """
+    Сериализатор продукта
+    """
+    class Meta: # pylint: disable=too-few-public-methods disable=missing-class-docstring
         model = Product
         fields = "__all__"
         extra_kwargs = {
@@ -61,10 +75,12 @@ class ProductSerializer(serializers.ModelSerializer):
         }
 
 class RequestSerializer(serializers.ModelSerializer):
-    class Meta:
+    """
+    Сериализатор запросов
+    """
+    class Meta: # pylint: disable=too-few-public-methods disable=missing-class-docstring
         model = Request
         fields = "__all__"
-        # TODO узнать можно ли настроить разные read_only для создания и обновления
         extra_kwargs = {
             "id": {"read_only": True},
             # "request_supplied": {"read_only": True},  # Это поле обновляется только поставщиком
@@ -89,7 +105,3 @@ class RequestSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("Товар ещё не доставлен поставщиком.")
 
         return attrs
-
-
-
-

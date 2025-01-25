@@ -1,3 +1,6 @@
+"""
+Файл содержит классы разрешений приложения
+"""
 from rest_framework.permissions import BasePermission
 
 class IsNotAuthenticated(BasePermission):
@@ -18,11 +21,13 @@ class IsNotAuthenticatedOrAdmin(BasePermission):
 
 
 class IsRequesterOrAdmin(BasePermission):
+    """
+    Разрешает доступ только заказчику или админу
+    """
     def has_permission(self, request, view):
         if request.user.is_authenticated:
             return not request.user.is_supplier or request.user.is_staff
-        else:
-            return False
+        return False
 
 
 class IsRequesterOfProduct(BasePermission):
@@ -33,11 +38,13 @@ class IsRequesterOfProduct(BasePermission):
         return obj.customer == request.user
 
 class IsSupplierOrAdmin(BasePermission):
+    """
+    Разрешает доступ только поставщику или админу
+    """
     def has_permission(self, request, view):
         if request.user.is_authenticated:
             return request.user.is_supplier or request.user.is_staff
-        else:
-            return False
+        return False
 
 
 class IsSupplierOfProduct(BasePermission):

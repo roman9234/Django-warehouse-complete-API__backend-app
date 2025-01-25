@@ -1,6 +1,13 @@
+"""
+URL приложения
+"""
 from rest_framework.routers import DefaultRouter
-
-from api.views import UserModelViewSet, WarehouseModelViewSet, ProductModelViewSet, RequestModelViewSet
+from api.views import (
+    UserModelViewSet,
+    WarehouseModelViewSet,
+    ProductModelViewSet,
+    RequestModelViewSet
+)
 
 router = DefaultRouter()
 
@@ -15,8 +22,3 @@ urlpatterns = [
 ]
 
 urlpatterns.extend(router.urls)
-
-
-
-
-

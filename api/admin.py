@@ -1,6 +1,7 @@
-from django.contrib import admin
+"""
+Взаимодействие с панелью администратора
+"""
 from django.contrib.auth.models import Group, Permission
-from rest_framework.generics import get_object_or_404
 
 from api.models import ApiUser
 # Здесь будем управлять разрешениями permissions
@@ -29,5 +30,3 @@ permissions = Permission.objects.filter(codename__in=[
     "delete_product",
 ])
 group.permissions.add(*permissions)
-
-
