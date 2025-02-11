@@ -31,7 +31,8 @@ class Product(models.Model):
         ApiUser,
         related_name="producer_products",
         on_delete=models.CASCADE,
-        default=None
+        default=None,
+        null=True
     )
 
 
@@ -53,5 +54,6 @@ class Request(models.Model):
         ApiUser,
         related_name="customer_requests",
         on_delete=models.CASCADE,
-        default=None
+        default=None,
+        null=True
     )
