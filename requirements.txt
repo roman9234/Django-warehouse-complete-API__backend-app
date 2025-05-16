@@ -32,3 +32,4 @@ tomlkit==0.13.2
     # via pylint
 tzdata==2024.2
     # via django
+psycopg2-binary==2.9.10
