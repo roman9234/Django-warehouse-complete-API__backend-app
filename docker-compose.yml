@@ -17,6 +17,8 @@ services:
     ports:
       - "8000:8000"
 #   Нужно чтобы Django запускалось только после работы БД
+    environment:
+      - PYTHONPATH=/opt/django_app
     depends_on:
       app-postgres:
 #       Условие срабатывания
