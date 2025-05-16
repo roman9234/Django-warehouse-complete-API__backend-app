@@ -24,7 +24,7 @@ RUN pip install -r requirements.txt
 # Из-за особенности буферизованного ввода/вывода чтобы видеть информацию сразу, а не в отложенном виде \
 # Монжо добавить переменную при инициализации контейнера
 ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH="/opt/django_app:$PYTHONPATH"
+ENV PYTHONPATH="/opt/django_app/django_project:$PYTHONPATH"
 
 
 

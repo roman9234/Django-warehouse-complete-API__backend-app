@@ -3,7 +3,7 @@
 """
 from django.contrib.auth.models import Group, Permission
 
-from django_project.api.models import ApiUser
+from api.models import ApiUser
 # Здесь будем управлять разрешениями permissions
 
 # Создаем пользователя
