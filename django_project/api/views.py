@@ -12,15 +12,15 @@ from rest_framework.permissions import (
     AllowAny,
 )
 from rest_framework.response import Response
-from api.models import ApiUser, Warehouse, Product, Request
-from api.permissions import (
+from django_project.api.models import ApiUser, Warehouse, Product, Request
+from django_project.api.permissions import (
     IsNotAuthenticatedOrAdmin,
     IsRequesterOrAdmin,
     IsSupplierOrAdmin,
     IsSupplierOfProduct,
     IsRequesterOfProduct
 )
-from api.serializers import (
+from django_project.api.serializers import (
     UserSerializer,
     WarehouseSerializer,
     ProductSerializer,

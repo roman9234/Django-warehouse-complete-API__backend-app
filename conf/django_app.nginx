@@ -1,0 +1,13 @@
+server {
+    listen 80;
+    server_name django_app 89.111.141.9;
+
+    location /static/ {
+        alias /opt/django_app/static/;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://localhost:8000;
+    }
+}

@@ -1,0 +1,6 @@
+
+
+git remote add origin https://github.com/roman9234/kubernetes-project
+git remote set-url --add --push origin https://gitlab.com/romanlesovoy1/django-warehouse-complete-api
+git remote set-url --add --push origin https://github.com/roman9234/Django-warehouse-complete-API__backend-app
+git remote -v

@@ -2,7 +2,7 @@
 URL приложения
 """
 from rest_framework.routers import DefaultRouter
-from api.views import (
+from django_project.api.views import (
     UserModelViewSet,
     WarehouseModelViewSet,
     ProductModelViewSet,

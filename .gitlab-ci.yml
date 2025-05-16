@@ -1,0 +1,75 @@
+stages:
+  - preparation
+  - build
+  - deploy
+  - nginx
+
+before_script:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
+
+prepare_server:
+  stage: preparation
+  tags:
+    - shell
+  script:
+    # Удаляем содержимое /opt/ на сервере
+    - ssh root@$SERVER_HOST
+    - sudo apt update
+    - sudo apt install -y python3-pip nginx -y
+    - set -e
+    - sudo rm -rf /opt/*
+    - exit
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: on_success
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+
+build_application:
+  stage: build
+  tags:
+    - shell
+  script:
+    # Собираем контейнер, чтобы
+    - rsync -avz --exclude='*.log' --exclude='tmp/' -e "ssh -o StrictHostKeyChecking=no" ./ root@$SERVER_HOST:/opt/django_app/
+    - ssh root@$SERVER_HOST
+    - set -e
+    - sudo mkdir -p /opt/django_app_static/
+    - sudo mkdir -p /opt/django_app_data/
+    - cd /opt/django_app/
+    - docker compose down
+    - docker build -t django-app-docker-compose .
+    - docker compose build --no-cache
+    - exit
+
+deploy_application:
+  stage: deploy
+  tags:
+    - shell
+  script:
+    # Запскаем контейнер
+    - rsync -avz --exclude='*.log' --exclude='tmp/' -e "ssh -o StrictHostKeyChecking=no" ./ root@$SERVER_HOST:/opt/django_app/
+    - ssh root@$SERVER_HOST
+    - cd /opt/django_app/
+    - docker compose up -d
+    - exit
+
+configure_nginx:
+  stage: nginx
+  tags:
+    - shell
+  script:
+    # Настраиваем Nginx
+    - ssh root@$SERVER_HOST
+    - set -e
+    - sudo apt install -y nginx
+    - sudo rm -f /etc/nginx/sites-enabled/default
+    - sudo ln -sf /opt/django_app/conf/django_app.nginx /etc/nginx/sites-available/
+    - sudo ln -sf /etc/nginx/sites-available/django_app.nginx /etc/nginx/sites-enabled/
+    - cat /etc/nginx/sites-enabled/django_app.nginx
+    - sudo nginx -t
+    - sudo systemctl restart nginx
+    - exit
