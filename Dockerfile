@@ -19,6 +19,7 @@ COPY ./requirements.txt .
 COPY ./run.sh .
 
 #Можно прописать команду RUN
+#RUN apt-get update && apt-get install -y postgresql-client
 RUN pip install -r requirements.txt
 
 # Из-за особенности буферизованного ввода/вывода чтобы видеть информацию сразу, а не в отложенном виде \

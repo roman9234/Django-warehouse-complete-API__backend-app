@@ -1,21 +1,26 @@
 #!/usr/bin/env sh
 
-#Применяем миграции
-#--noinput для того чтобы не запрашивался ввод пользователя
+# Функция для проверки доступности PostgreSQL
+wait_for_postgres() {
+  until psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c '\q' >/dev/null 2>&1; do
+    echo "PostgreSQL is unavailable - sleeping"
+    sleep 1
+  done
+  echo "PostgreSQL is up - continuing"
+}
+
+# Ждём, пока PostgreSQL станет доступен
+export PGPASSWORD="$POSTGRES_PASSWORD"
+wait_for_postgres
+
+# Применяем миграции
 python manage.py migrate --noinput
 
-#Создаём суперпользователя
-#Выставлем переменные окружения для этой команды
+# Создаём суперпользователя (только если его нет)
 DJANGO_SUPERUSER_USERNAME="admin" \
-  DJANGO_SUPERUSER_PASSWORD="admin" \
-  DJANGO_SUPERUSER_EMAIL="admin@example.com"\
-  python manage.py createsuperuser --noinput
+DJANGO_SUPERUSER_PASSWORD="admin" \
+DJANGO_SUPERUSER_EMAIL="admin@example.com" \
+python manage.py createsuperuser --noinput || echo "Superuser already exists or error occurred"
 
-#Запуск приложения
-#noreload чтобы Django не отслеживал изменения файлов в проекте для перезапуска
+# Запуск приложения
 python manage.py runserver --noreload 0.0.0.0:8000
-
-
-
-
-
