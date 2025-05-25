@@ -19,6 +19,7 @@ COPY ./requirements.txt .
 COPY ./run.sh .
 
 #Можно прописать команду RUN
+#Без команды ниже не работает подключеник БД - требуется postgresql-client
 RUN apt-get update && apt-get install -y postgresql-client
 RUN pip install -r requirements.txt
 
