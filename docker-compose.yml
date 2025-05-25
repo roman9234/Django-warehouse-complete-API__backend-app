@@ -62,8 +62,8 @@ services:
 
 # Volume лучше прописать отдельной настройкой
 # Тут можо настроить больше параметров конфигурации
-#volumes:
-#  app-postgres:
-#    name: "app-postgres"
+volumes:
+  app-postgres:
+    name: "app-postgres"
 
 
