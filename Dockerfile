@@ -20,7 +20,8 @@ COPY ./run.sh .
 
 #Можно прописать команду RUN
 #Без команды ниже не работает подключеник БД - требуется postgresql-client
-RUN apt-get update && apt-get install -y postgresql-client
+#Эта команда именно для alpine
+RUN apk add --no-cache postgresql-client
 RUN pip install -r requirements.txt
 
 # Из-за особенности буферизованного ввода/вывода чтобы видеть информацию сразу, а не в отложенном виде \
