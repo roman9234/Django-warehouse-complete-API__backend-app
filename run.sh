@@ -13,6 +13,9 @@ wait_for_postgres() {
 export PGPASSWORD="$POSTGRES_PASSWORD"
 wait_for_postgres
 
+# Автоматически создаём БД если её ещё нет
+psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -c "CREATE DATABASE $POSTGRES_DB;" || echo "Database already exists"
+
 # Применяем миграции
 python manage.py migrate --noinput
 
