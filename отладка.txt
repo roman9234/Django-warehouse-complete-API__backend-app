@@ -33,3 +33,21 @@ docker-compose exec app env
 docker-compose exec app-postgres psql -U postgres -c "\du"
 
 
+# Удалить неиспользуемые образы, контейнеры и сети
+docker system prune -a -f --volumes
+
+# Очистить builder cache (если используется buildx)
+docker builder prune -a -f
+
+
+
+
+Если ошибки с gitlab runner
+
+nano /etc/gitlab-runner/config.toml
+добавляем:
+[runners.docker]
+  pull_policy = "if-not-present"  # Не скачивать образы, если они уже есть
+  disable_cache = false
+  volumes = ["/cache"]
+  cleanup_script = "docker system prune -f"  # Автоочистка после сборки
