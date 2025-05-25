@@ -46,9 +46,10 @@ services:
       - "app-postgres:/var/lib/postgresql/data"
 #   Задаём переменные окружения, которые будут установлены внутри приложения при запуске
     environment:
-      POSTGRES_DB: django_app
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      PGDATABASE: django_app
+      PGHOST: app-postgres
+      PGUSER: postgres           # Явно переопределяем, если где-то есть PGUSER=root
+      PGPASSWORD: postgres       # На случай, если psycopg2 берёт данные отсюда
 #   Нужно убедиться что postgres будет запущен раньше, чем наше приложение
 #   Для этого используем health check
     healthcheck:

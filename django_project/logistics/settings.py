@@ -95,6 +95,8 @@ DATABASES = {
         # Пользователь и пароль
         'USER': 'postgres',
         'PASSWORD': 'postgres',
+        # Убеждаемся что здесь нет лишних параметров
+        'OPTIONS': {},
     }
 }
 

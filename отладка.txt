@@ -29,5 +29,7 @@ docker network inspect $(docker-compose ps -q app | xargs docker inspect -f '{{r
 docker-compose exec app env
 
 
+Проверка что пользователь postgres существует
+docker-compose exec app-postgres psql -U postgres -c "\du"
 
 
