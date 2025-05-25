@@ -4,7 +4,7 @@ docker ps -a
 
 //логи упавшего контейнера
 docker logs django_app-app-1
-
+docker-compose logs app-postgres
 
 //
 docker-compose exec app-postgres psql -U postgres -l
@@ -14,6 +14,20 @@ docker-compose down && docker-compose up --build
 
 //перезапуск в фоновом режиме
 docker-compose down && docker-compose up --build
+
+
+// Подключение к БД через контейнер
+docker-compose exec app psql -h app-postgres -U postgres -d django_app -c "\conninfo"
+
+
+
+//Проверка сети Docker
+docker network inspect $(docker-compose ps -q app | xargs docker inspect -f '{{range .NetworkSettings.Networks}}{{.NetworkID}}{{end}}')
+
+
+Запуск контейнера с выводом всем переменных среды
+docker-compose exec app env
+
 
 
 
