@@ -76,27 +76,27 @@ WSGI_APPLICATION = 'logistics.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 # СТАРАЯ ВЕРСИЯ с sql lite
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         # Так как так называется сервис в docker-compose
-#         'HOST': 'app-postgres',
-#         # Стандартный порт
-#         'PORT': 5432,
-#         # Переменная названия БД, указана в environment
-#         'NAME': 'django_app',
-#         # Пользователь и пароль
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        # Так как так называется сервис в docker-compose
+        'HOST': 'app-postgres',
+        # Стандартный порт
+        'PORT': 5432,
+        # Переменная названия БД, указана в environment
+        'NAME': 'django_app',
+        # Пользователь и пароль
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

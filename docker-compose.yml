@@ -52,7 +52,7 @@ services:
       test: ["CMD-SHELL", "pg_isready", "-U", "postgres"]
 #     Дополнительно нужно указать интервал проверки
 #     То есть через какое время после ответа будет повторная проверка
-      interval: 1s
+      interval: 5s
 #     Сколько ждём выполнения команды
       timeout: 5s
 #     Сколько попыток сделать
@@ -62,8 +62,8 @@ services:
 
 # Volume лучше прописать отдельной настройкой
 # Тут можо настроить больше параметров конфигурации
-volumes:
-  app-postgres:
-    name: "app-postgres"
+#volumes:
+#  app-postgres:
+#    name: "app-postgres"
 
 
