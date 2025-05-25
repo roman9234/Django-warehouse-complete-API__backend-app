@@ -22,10 +22,10 @@ docker-compose exec app-postgres psql -U postgres -c "GRANT ALL PRIVILEGES ON DA
 python manage.py migrate --noinput
 
 # Создаём суперпользователя (только если его нет)
-DJANGO_SUPERUSER_USERNAME="admin" \
-DJANGO_SUPERUSER_PASSWORD="admin" \
-DJANGO_SUPERUSER_EMAIL="admin@example.com" \
-python manage.py createsuperuser --noinput || echo "Superuser already exists or error occurred"
+#DJANGO_SUPERUSER_USERNAME="admin" \
+#DJANGO_SUPERUSER_PASSWORD="admin" \
+#DJANGO_SUPERUSER_EMAIL="admin@example.com" \
+#python manage.py createsuperuser --noinput || echo "Superuser already exists or error occurred"
 
 # Запуск приложения
 python manage.py runserver --noreload 0.0.0.0:8000
