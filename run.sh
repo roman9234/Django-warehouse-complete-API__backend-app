@@ -9,14 +9,15 @@ wait_for_postgres() {
   echo "PostgreSQL is up - continuing"
 }
 
-# Ждём, пока PostgreSQL станет доступен
-export PGPASSWORD="$POSTGRES_PASSWORD"
-wait_for_postgres
 
 # Автоматически создаём БД если её ещё нет
 psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -c "CREATE DATABASE $POSTGRES_DB;" || echo "Database already exists"
 docker-compose exec app-postgres psql -U postgres -c "CREATE USER postgres WITH PASSWORD 'postgres';"
 docker-compose exec app-postgres psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE django_app TO postgres;"
+
+# Ждём, пока PostgreSQL станет доступен
+export PGPASSWORD="$POSTGRES_PASSWORD"
+wait_for_postgres
 
 # Применяем миграции
 python manage.py migrate --noinput
