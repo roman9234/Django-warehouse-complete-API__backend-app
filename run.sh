@@ -38,6 +38,10 @@ echo "Granting privileges..."
 psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d postgres -c "GRANT ALL PRIVILEGES ON DATABASE $POSTGRES_DB TO postgres;"
 echo "Privileges granted"
 
+echo "Creating migrations..."
+python manage.py makemigrations --noinput
+echo "created migrations"
+
 # Применяем миграции
 echo "Applying migrations..."
 python manage.py migrate --noinput
