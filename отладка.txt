@@ -1,4 +1,6 @@
 ssh -i C:/SWEB/id_rsa root@89.111.141.9
+cd /opt/django_app
+
 
 //список контейнеров
 docker ps -a

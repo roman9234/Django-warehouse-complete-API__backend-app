@@ -50,6 +50,7 @@ services:
       PGHOST: app-postgres
       PGUSER: postgres           # Явно переопределяем, если где-то есть PGUSER=root
       PGPASSWORD: postgres       # На случай, если psycopg2 берёт данные отсюда
+      POSTGRES_PASSWORD: postgres  # Пароль для пользователя 'postgres'
 #   Нужно убедиться что postgres будет запущен раньше, чем наше приложение
 #   Для этого используем health check
     healthcheck:
