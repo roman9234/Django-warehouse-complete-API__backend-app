@@ -9,23 +9,22 @@ wait_for_postgres() {
   echo "PostgreSQL is up - continuing"
 }
 
-echo "FUCK YOU 1"
 # Автоматически создаём БД если её ещё нет
 psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -c "CREATE DATABASE $POSTGRES_DB;" || echo "Database already exists"
-echo "FUCK YOU 2"
+echo "created DB"
 docker-compose exec app-postgres psql -U postgres -c "CREATE USER postgres WITH PASSWORD 'postgres';"
-echo "FUCK YOU 3"
+echo "created user"
 docker-compose exec app-postgres psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE django_app TO postgres;"
-echo "FUCK YOU 4"
+echo "created user"
 
 # Ждём, пока PostgreSQL станет доступен
 export PGPASSWORD="$POSTGRES_PASSWORD"
 wait_for_postgres
-echo "FUCK YOU 5"
+echo "waited"
 
 # Применяем миграции
 python manage.py migrate --noinput
-echo "FUCK YOU 6"
+echo "migrated"
 
 # Создаём суперпользователя (только если его нет)
 #DJANGO_SUPERUSER_USERNAME="admin" \
