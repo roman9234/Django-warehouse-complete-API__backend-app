@@ -9,11 +9,11 @@ services:
 #   Указываем имя образа который будем использовать. По этому имени мы НЕ получаем его
     image: django-app-docker-compose
 #    Переменные окружения
-#    environment:
-#      POSTGRES_HOST: app-postgres  # имя сервиса БД
-#      POSTGRES_DB: django_app      # должно совпадать с POSTGRES_DB в сервисе app-postgres
-#      POSTGRES_USER: postgres      # должно совпадать с POSTGRES_USER
-#      POSTGRES_PASSWORD: postgres  # должно совпадать с POSTGRES_PASSWORD
+    environment:
+      POSTGRES_HOST: app-postgres  # имя сервиса БД
+      POSTGRES_DB: django_app      # должно совпадать с POSTGRES_DB в сервисе app-postgres
+      POSTGRES_USER: postgres      # должно совпадать с POSTGRES_USER
+      POSTGRES_PASSWORD: postgres  # должно совпадать с POSTGRES_PASSWORD
 #   В разделе build указываем откуда берём image
 #   context . значтт что мы будем в текущем каталоге искать Dockerfile и запускать из него сборку dokcer image
     build:
