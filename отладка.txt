@@ -21,7 +21,7 @@ docker-compose down && docker-compose up --build
 
 // Подключение к БД через контейнер
 docker-compose exec app psql -h app-postgres -U postgres -d django_app -c "\conninfo"
-
+docker-compose exec app psql -h app-postgres -U postgres -c "\conninfo"
 
 
 //Проверка сети Docker
