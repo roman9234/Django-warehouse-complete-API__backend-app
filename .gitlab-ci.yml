@@ -85,7 +85,7 @@ configure_nginx:
 # Этап для тестирования
 run_tests:
   stage: test
-  image: python:3.9
+  image: python:3.12
   before_script:
     - python -V
     - pip install -U pip
