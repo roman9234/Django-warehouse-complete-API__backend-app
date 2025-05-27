@@ -6,6 +6,15 @@ FROM python:3.11-alpine
 #как рабочий каталог
 WORKDIR /app
 
+# Устанавливаем зависимости системы
+RUN apk add --no-cache postgresql-client build-base postgresql-dev
+
+COPY ./requirements.txt .
+
+# Копируем зависимости первыми для кэширования
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
 #Копируем текущее приложение
 #Конкретно копируем именно папку django_project
 #Точка в конце обозначает текущий каталог в Docker Образе
@@ -14,7 +23,6 @@ COPY ./django_project .
 #COPY ./manage.py .
 
 #Помимо прилозения нам понадобится файлик
-COPY ./requirements.txt .
 
 #Файл нужный для применения миграций
 COPY ./run.sh .
@@ -27,12 +35,12 @@ RUN pip install -r requirements.txt
 
 # Из-за особенности буферизованного ввода/вывода чтобы видеть информацию сразу, а не в отложенном виде \
 # Монжо добавить переменную при инициализации контейнера
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH="/opt/django_app/django_project:$PYTHONPATH"
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONPATH="/opt/django_app/django_project:$PYTHONPATH"
 
+# Сборка статики при создании образа
+RUN python manage.py collectstatic --noinput
 
-
-#Применение миграций
 #Через оболочку sh вызываем скрипт
 CMD ["sh", "run.sh"]
 
@@ -43,8 +51,6 @@ CMD ["sh", "run.sh"]
 #runserver в конце - не достаточно
 #0.0.0.0:0000 нужен для доступа извне контейнера - Django будет отвечать на запросы с любого сетевого интерфейса
 
-#run.sh содержит код для мигарций и создания суперпользователя, поэтому используем её
-#код ниже работает при БД SQLite
 #CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
 

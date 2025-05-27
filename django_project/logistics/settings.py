@@ -89,32 +89,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'logistics.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-# СТАРАЯ ВЕРСИЯ с sql lite
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
+# Убираем дублирование настроек БД
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        # Так как так называется сервис в docker-compose
-        'HOST': 'app-postgres',
-        # Стандартный порт
-        'PORT': 5432,
+        # Так называется сервис в docker-compose
+        'HOST': os.getenv('POSTGRES_HOST', 'app-postgres'),
         # Переменная названия БД, указана в environment
-        'NAME': 'django_app',
+        'NAME': os.getenv('POSTGRES_DB', 'django_app'),
         # Пользователь и пароль
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        # Убеждаемся что здесь нет лишних параметров
-        'OPTIONS': {},
+        'USER': os.getenv('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'postgres'),
+        # Стандартный порт
+        'PORT': os.getenv('POSTGRES_PORT', '5432'),
     }
 }
 

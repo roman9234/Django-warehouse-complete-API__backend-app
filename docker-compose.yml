@@ -45,8 +45,7 @@ services:
 #   Или создать именованный раздел внутри докера
     volumes:
 #     Название : каталог
-#     Это стандартное значение. Его можно найти в документации
-      - "app-postgres:/var/lib/postgresql/data"
+      - postgres_data:/var/lib/postgresql/data  # Используем именованный том
 #   Задаём переменные окружения, которые будут установлены внутри приложения при запуске
     environment:
       POSTGRES_DB: django_app
@@ -76,7 +75,6 @@ services:
 # Volume лучше прописать отдельной настройкой
 # Тут можо настроить больше параметров конфигурации
 volumes:
-  app-postgres:
-    name: "app-postgres"
+  postgres_data:  # Отдельный именованный том для данных
 
 

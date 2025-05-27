@@ -38,6 +38,7 @@ build_application:
     - ssh root@$SERVER_HOST
     - set -e
     - cd /opt/django_app/
+    - docker compose pull
     - docker compose down
     - docker build -t django-app-docker-compose .
     - docker compose build --no-cache
@@ -54,6 +55,16 @@ deploy_application:
     - cd /opt/django_app/
     - docker compose up -d
     - exit
+
+cleanup:
+  stage: deploy
+  tags:
+    - shell
+  script:
+#    Удаление всех неиспользуемых объекты Docker, включая тома
+    - docker image prune -af --volumes
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
 
 configure_nginx:
   stage: nginx
