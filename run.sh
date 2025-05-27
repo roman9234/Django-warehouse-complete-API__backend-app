@@ -58,10 +58,10 @@ python manage.py migrate --noinput
 #DJANGO_SUPERUSER_EMAIL="admin@example.com" \
 #python manage.py createsuperuser --noinput || echo "Superuser already exists or error occurred"
 
-#Собираем статические файлы
-#echo "Collecting static files..."
-#mkdir static/
-#python manage.py collectstatic --noinput
+Собираем статические файлы
+echo "Collecting static files..."
+mkdir static/
+python manage.py collectstatic --noinput
 
 # Запуск приложения
 echo "Starting server..."

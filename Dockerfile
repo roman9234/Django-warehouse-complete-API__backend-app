@@ -39,7 +39,7 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH="/opt/django_app/django_project:$PYTHONPATH"
 
 # Сборка статики при создании образа
-RUN python manage.py collectstatic --noinput
+#RUN #python manage.py collectstatic --noinput
 
 #Через оболочку sh вызываем скрипт
 CMD ["sh", "run.sh"]
