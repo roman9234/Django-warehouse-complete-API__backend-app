@@ -64,8 +64,6 @@ cleanup:
   script:
 #    Удаление всех неиспользуемых объекты Docker, включая тома
     - docker image prune -af
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
 
 configure_nginx:
   stage: nginx
@@ -94,5 +92,3 @@ run_tests:
     - pip install -r requirements.txt
   script:
     - python manage.py test --noinput
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
