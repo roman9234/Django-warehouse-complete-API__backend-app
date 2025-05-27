@@ -40,7 +40,7 @@ build_application:
     - cd /opt/django_app/
     - docker compose down
     - docker build -t django-app-docker-compose .
-    - docker compose build --no-cache
+    - docker compose build
     - exit
 
 deploy_application:
@@ -53,6 +53,7 @@ deploy_application:
     - ssh root@$SERVER_HOST
     - cd /opt/django_app/
     - docker compose up -d
+    - chmod +x reset_db.sh
     - exit
 
 cleanup:
