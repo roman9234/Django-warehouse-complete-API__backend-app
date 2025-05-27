@@ -15,50 +15,13 @@ wait_for_postgres() {
 # Ждём, пока PostgreSQL станет доступен
 wait_for_postgres
 
-# Создаём БД если её ещё нет
-#echo "Attempting to create database $POSTGRES_DB..."
-#if ! psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d postgres -tc "SELECT 1 FROM pg_database WHERE datname = '$POSTGRES_DB'" | grep -q 1; then
-#  psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d postgres -c "CREATE DATABASE $POSTGRES_DB;"
-#  echo "Database $POSTGRES_DB created"
-#else
-#  echo "Database $POSTGRES_DB already exists"
-#fi
-
-# Создаём пользователя если его нет
-#echo "Attempting to create user postgres..."
-#if ! psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d postgres -tc "SELECT 1 FROM pg_user WHERE usename = 'postgres'" | grep -q 1; then
-#  psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d postgres -c "CREATE USER postgres WITH PASSWORD 'postgres';"
-#  echo "User postgres created"
-#else
-#  echo "User postgres already exists"
-#fi
-
-# Даём права пользователю на БД
-#echo "Granting privileges..."
-#psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d postgres -c "GRANT ALL PRIVILEGES ON DATABASE $POSTGRES_DB TO postgres;"
-#echo "Privileges granted"
-
 # Применяем миграции
 echo "Applying migrations..."
 python manage.py migrate --noinput
 
 #python manage.py showmigrations --skip-checks
 
-#echo "Creating migrations..."
-#python manage.py makemigrations --no-input --skip-checks
-#echo "created migrations"
-
-#python manage.py showmigrations
-
-
-# Создаём суперпользователя (только если его нет)
-#echo "Creating superuser..."
-#DJANGO_SUPERUSER_USERNAME="admin" \
-#DJANGO_SUPERUSER_PASSWORD="admin" \
-#DJANGO_SUPERUSER_EMAIL="admin@example.com" \
-#python manage.py createsuperuser --noinput || echo "Superuser already exists or error occurred"
-
-Собираем статические файлы
+#Собираем статические файлы
 echo "Collecting static files..."
 mkdir static/
 python manage.py collectstatic --noinput
