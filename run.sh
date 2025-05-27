@@ -60,6 +60,8 @@ echo "Migrations applied"
 #python manage.py createsuperuser --noinput || echo "Superuser already exists or error occurred"
 
 #Собираем статические файлы
+echo "Collecting static files..."
+mkdir "static/"
 python manage.py collectstatic --noinput
 
 # Запуск приложения
