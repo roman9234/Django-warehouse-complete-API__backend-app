@@ -61,7 +61,7 @@ cleanup:
     - shell
   script:
 #    Удаление всех неиспользуемых объекты Docker, включая тома
-    - docker image prune -af --volumes
+    - docker image prune -af
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
 
