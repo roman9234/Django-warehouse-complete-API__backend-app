@@ -61,7 +61,7 @@ echo "Migrations applied"
 
 #Собираем статические файлы
 echo "Collecting static files..."
-mkdir "static/"
+mkdir static/
 python manage.py collectstatic --noinput
 
 # Запуск приложения
