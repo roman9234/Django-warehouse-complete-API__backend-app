@@ -22,6 +22,8 @@ services:
 #   Указываем порты 8000 на компе 8000 в контейнере
     ports:
       - "8000:8000"
+    volumes:
+      - ./django_project/static:/app/staticfiles  # Монтирование статики на хост
 #   Нужно чтобы Django запускалось только после работы БД
     depends_on:
       app-postgres:

@@ -37,7 +37,7 @@ docker-compose exec app-postgres psql -U postgres -c "\du"
 
 
 # Удалить неиспользуемые образы, контейнеры и сети
-docker system prune -a -f --volumes
+docker system prune -a -f --volumes && docker pull python:3.11-alpine
 
 # Очистить builder cache (если используется buildx)
 docker builder prune -a -f
