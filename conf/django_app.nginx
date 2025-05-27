@@ -3,7 +3,7 @@ server {
     server_name django_app 89.111.141.9;
 
     location /static/ {
-        alias /opt/django_app/static/;
+        alias /opt/django_app/django_project/static/;
     }
 
     location / {
