@@ -3,6 +3,7 @@ stages:
   - build
   - deploy
   - nginx
+  - test
 
 before_script:
   - eval $(ssh-agent -s)
@@ -82,3 +83,16 @@ configure_nginx:
     - sudo nginx -t
     - sudo systemctl restart nginx
     - exit
+
+# Этап для тестирования
+run_tests:
+  stage: test
+  image: python:3.9
+  before_script:
+    - python -V
+    - pip install -U pip
+    - pip install -r requirements.txt
+  script:
+    - python manage.py test --noinput
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
