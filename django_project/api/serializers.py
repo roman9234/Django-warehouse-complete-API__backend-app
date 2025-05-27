@@ -5,7 +5,7 @@ from rest_framework import serializers
 from rest_framework import validators
 
 
-from django_project.api.models import ApiUser, Warehouse, Product, Request
+from api.models import ApiUser, Warehouse, Product, Request
 
 class UserSerializer(serializers.Serializer):
     """
