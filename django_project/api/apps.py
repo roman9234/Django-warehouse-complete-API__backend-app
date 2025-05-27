@@ -12,8 +12,7 @@ class ApiConfig(AppConfig):
     name = 'api'
 
     def ready(self):
-        # Перенесите код, работающий с моделями, в сигналы или отложите выполнение
-        from django.db.models.signals import post_migrate
-        from .signals import setup_admin_user  # Ваш обработчик
-
-        post_migrate.connect(setup_admin_user, sender=self)
+        # Этот код выполнится ТОЛЬКО после полной загрузки Django
+        # и после применения миграций
+        # import api.signals  # Если используете сигналы
+        print("API AppConfig.ready() выполнен")
