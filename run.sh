@@ -59,6 +59,9 @@ echo "Migrations applied"
 #DJANGO_SUPERUSER_EMAIL="admin@example.com" \
 #python manage.py createsuperuser --noinput || echo "Superuser already exists or error occurred"
 
+#Собираем статические файлы
+python manage.py collectstatic --noinput
+
 # Запуск приложения
 echo "Starting server..."
 python manage.py runserver --noreload 0.0.0.0:8000

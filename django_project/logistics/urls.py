@@ -26,3 +26,7 @@ urlpatterns = [
     # получаем токен
     path('api-token-auth/', obtain_auth_token),
 ]
+
+# Настройка URLs для разработки
+# if settings.DEBUG:
+#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
